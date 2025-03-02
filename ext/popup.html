@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Comment Extension</title>
+    <script src="htmx.min.js"></script>
+    <script src="tailwind.global.js"></script>
+
+    <style>
+        body {
+            width: 400px;
+            /* Set a reasonable width */
+            min-height: 200px;
+            /* Optional: Set a minimum height */
+            /* Remove any default margins/padding that might be interfering */
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            /* Prevent horizontal scrollbar if content is still too wide */
+        }
+
+        /* You might need to target the <main> element directly as well */
+        main {
+            width: 100%;
+            /* Ensure main takes the full width of the body */
+        }
+    </style>
+</head>
+
+<body hx-get="http://127.0.0.1:8000/comments" hx-trigger="load">
+
+</body>
+
+</html>

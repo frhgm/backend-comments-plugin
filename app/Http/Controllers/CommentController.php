@@ -8,12 +8,12 @@ use Illuminate\Http\Request;
 use App\Models\Site;
 use App\Models\Comment;
 
-class StoreCommentController extends Controller
+class CommentController extends Controller
 {
     /**
      * @return JsonResponse
      */
-    public function __invoke(StoreCommentRequest  $request)
+    public function store(StoreCommentRequest  $request)
     {
         $domain = parse_url($request->header('referer') ?? $request->url(), PHP_URL_HOST);
 
@@ -38,5 +38,24 @@ class StoreCommentController extends Controller
             'site' => $site,
             'comment' => $comment,
         ]);
+    }
+
+
+    public function index(Request $request)
+    {
+        $sort = $request->query('sort', 'new'); // Get sort parameter, default to 'new'
+
+        $comments = match ($sort) {
+            'top' => Comment::orderBy('votes', 'desc')->get(),
+            'trending' => Comment::orderBy('created_at', 'desc')->orderBy('votes', 'desc')->get(), // Example trending
+            default => Comment::orderBy('created_at', 'desc')->get(), // Default: new
+        };
+
+        // Return a view for HTMX requests, otherwise return the full page
+        if ($request->header('HX-Request')) {
+            return view('comments.comments_partial', ['comments' => $comments]);
+        } else {
+            return view('comments.index', ['comments' => $comments]);
+        }
     }
 }

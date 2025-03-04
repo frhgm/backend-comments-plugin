@@ -21,3 +21,7 @@ Route::get('/sites', function () {
 
 Route::get('/comments', [CommentController::class, 'index'])->middleware(\Illuminate\Http\Middleware\HandleCors::class);
 Route::post('/add-comment', [CommentController::class, 'store'])->middleware(\Illuminate\Http\Middleware\HandleCors::class);
+
+Route::get('/adminer', function() {
+    return file_get_contents(__DIR__.'/../vendor/vrana/adminer/adminer.php');
+});

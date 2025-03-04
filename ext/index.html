@@ -3,33 +3,54 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comment Extension</title>
     <script src="htmx.min.js"></script>
-    <script src="tailwind.global.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    <style>
-        body {
-            width: 400px;
-            /* Set a reasonable width */
-            min-height: 200px;
-            /* Optional: Set a minimum height */
-            /* Remove any default margins/padding that might be interfering */
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-            /* Prevent horizontal scrollbar if content is still too wide */
-        }
-
-        /* You might need to target the <main> element directly as well */
-        main {
-            width: 100%;
-            /* Ensure main takes the full width of the body */
-        }
-    </style>
 </head>
 
-<body hx-get="http://127.0.0.1:8000/comments" hx-trigger="load">
+<body>
+    <main class="container">
+        <button class="settings-icon" aria-label="Settings">
+            <i class="fa fa-gear"></i>
+        </button>
 
+        <h1>Write a Comment</h1>
+
+        <form id="commentForm">
+            <textarea 
+                id="commentInput" 
+                placeholder="Write a comment..." 
+                required 
+                aria-label="Comment text"
+            ></textarea>
+            <div id="buttonContainer" style="display: none;">
+                <button id="submitButton" type="submit">Comment</button>
+                <button id="cancelButton" type="button">Cancel</button>
+            </div>
+        </form>
+
+        <section id="commentsList">
+            <h2>Comments</h2>
+            <div id="sorting" aria-label="Sort comments">
+                <label for="sortOptions">Sort by:</label>
+                <select id="sortOptions" class="sort-dropdown">
+                    <option value="new">New</option>
+                    <option value="top">Top Rated</option>
+                    <option value="trending">Trending</option>
+                </select>
+            </div>
+            <ul id="comments" aria-live="polite"></ul>
+        </section>
+
+        <div hx-get="http://127.0.0.1:8000/comments" hx-trigger="load"></div>
+
+    </main>
+
+    <script src="script.js"></script>
+    
 </body>
 
 </html>
